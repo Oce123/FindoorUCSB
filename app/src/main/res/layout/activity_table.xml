@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TableActivity">
+
+    <Button
+        android:id="@+id/parametres"
+        android:layout_width="151dp"
+        android:layout_height="35dp"
+        android:background="@drawable/deconnexion"
+        android:onClick="parametres"
+        android:text="Settings"
+        android:textColor="@android:color/white"
+        android:textSize="13dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.937"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
+
+    <Button
+        android:id="@+id/epi6"
+        android:layout_width="52dp"
+        android:layout_height="55dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/deconnexion"
+        android:text="6"
+        android:textColor="@android:color/white"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.173" />
+
+    <Button
+        android:id="@+id/epi4"
+        android:layout_width="52dp"
+        android:layout_height="55dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/deconnexion"
+        android:text="4"
+        android:textColor="@android:color/white"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/epi5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.173" />
+
+    <Button
+        android:id="@+id/epi3"
+        android:layout_width="52dp"
+        android:layout_height="55dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/deconnexion"
+        android:text="3"
+        android:textColor="@android:color/white"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/epi4"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.173" />
+
+    <Button
+        android:id="@+id/epi2"
+        android:layout_width="52dp"
+        android:layout_height="55dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/deconnexion"
+        android:text="2"
+        android:textColor="@android:color/white"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/epi3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.173" />
+
+    <Button
+        android:id="@+id/epi1"
+        android:layout_width="52dp"
+        android:layout_height="55dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/deconnexion"
+        android:text="1"
+        android:textColor="@android:color/white"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/epi2"
+        app:layout_constraintHorizontal_bias="0.818"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.173" />
+
+    <Button
+        android:id="@+id/epi5"
+        android:layout_width="52dp"
+        android:layout_height="55dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/deconnexion"
+        android:text="5"
+        android:textColor="@android:color/white"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/epi6"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.173" />
+
+    <Spinner
+        android:id="@+id/heure_de_debut"
+        android:layout_width="198dp"
+        android:layout_height="31dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.084"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.022" />
+
+    <Spinner
+        android:id="@+id/heure_de_fin"
+        android:layout_width="198dp"
+        android:layout_height="31dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.084"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.065" />
+
+    <Button
+        android:id="@+id/retour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="back"
+        android:text="Disconnection"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.941"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.086" />
+
+    <Button
+        android:id="@+id/collabButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="collaborative"
+        android:text="Collaborative"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.941"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.96" />
+
+    <Button
+        android:id="@+id/FindButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="find"
+        android:text="Find a professor"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.067"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.96" />
+
+    <ListView
+        android:id="@+id/epi1liste"
+        android:layout_width="69dp"
+        android:layout_height="464dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/epi1"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ListView
+        android:id="@+id/epi2liste"
+        android:layout_width="69dp"
+        android:layout_height="464dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/epi1liste"
+        app:layout_constraintTop_toBottomOf="@+id/epi2"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ListView
+        android:id="@+id/epi3liste"
+        android:layout_width="69dp"
+        android:layout_height="464dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/epi2liste"
+        app:layout_constraintTop_toBottomOf="@+id/epi3"
+        app:layout_constraintVertical_bias="0.126" />
+
+    <ListView
+        android:id="@+id/epi4liste"
+        android:layout_width="69dp"
+        android:layout_height="464dp"
+        android:layout_marginEnd="132dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/epi3liste"
+        app:layout_constraintTop_toBottomOf="@+id/epi4"
+        app:layout_constraintVertical_bias="0.126" />
+
+    <ListView
+        android:id="@+id/epi5liste"
+        android:layout_width="69dp"
+        android:layout_height="464dp"
+        android:layout_marginEnd="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/epi4liste"
+        app:layout_constraintTop_toBottomOf="@+id/epi5"
+        app:layout_constraintVertical_bias="0.126" />
+
+    <ListView
+        android:id="@+id/epi6liste"
+        android:layout_width="68dp"
+        android:layout_height="464dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/epi5liste"
+        app:layout_constraintTop_toBottomOf="@+id/epi6"
+        app:layout_constraintVertical_bias="0.126" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
