@@ -2,6 +2,8 @@ package com.example.findoor;
 
 import static com.example.findoor.SettingsActivity.getVarHeure;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -179,12 +181,65 @@ public class TableActivity extends AppCompatActivity {
         if (putData.startPut()) {
             if (putData.onComplete()) {
                 String result = putData.getResult();
+                result = result.replace("[", "").replace("]", "");
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(TableActivity.this, android.R.layout.simple_list_item_1, Arrays.asList(result.split(",")));
                 listView.setAdapter(adapter);
             }
         }
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String roomNumberString = (String) parent.getItemAtPosition(position);
+
+                // Assurez-vous que la chaîne est correctement formatée en tant qu'entier
+                try {
+                    int roomNumber = Integer.parseInt(roomNumberString.trim()); // Utilisez trim() pour supprimer les espaces éventuels
+                    showConfirmationDialog(aisleId, roomNumber);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    // Gérez l'erreur de conversion ici, par exemple, affichez un message d'erreur à l'utilisateur
+                    Toast.makeText(TableActivity.this, "Erreur de conversion du numéro de salle", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
+    private void showConfirmationDialog(String aisleId, int roomNumber) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Do you want to book the room " + roomNumber + "?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // L'utilisateur a cliqué sur "Oui", retirez la salle de la base de données
+                        deleteReservationFromDatabase(aisleId, roomNumber);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // L'utilisateur a cliqué sur "Non", fermez la fenêtre modale
+                        dialog.dismiss();
+                    }
+                });
+        builder.create().show();
+    }
+
+    private void deleteReservationFromDatabase(String aisleId, int roomNumber) {
+        // Convertir les valeurs en entiers
+        int aisle = Integer.parseInt(aisleId);
+        // Construisez et exécutez la requête vers le service PHP pour supprimer la réservation
+        String[] field = new String[]{"aisle", "number"};
+        String[] data = new String[]{String.valueOf(aisle), String.valueOf(roomNumber)};
+        PutData putData = new PutData("http://192.168.5.69/FindoorDatabase/deletereservation.php", "POST", field, data);
+
+        if (putData.startPut()) {
+            if (putData.onComplete()) {
+                String result = putData.getResult();
+                // Affichez un message ou effectuez d'autres actions en fonction du résultat de la suppression
+                Toast.makeText(TableActivity.this, result, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     // Message toast pour indiqué les paramètres utilisés
     private void onItemSelectedHandler(AdapterView<?> adapterView, View view, int position, long id) {
