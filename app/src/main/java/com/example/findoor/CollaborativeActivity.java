@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.vishnusivadas.advanced_httpurlconnection.PutData;
 
 import org.json.JSONObject;
@@ -30,30 +31,34 @@ import java.nio.charset.StandardCharsets;
 public class CollaborativeActivity extends AppCompatActivity {
 
     private EditText roomNumberEditText;
-    private Spinner aisleBookSpinner;
+    private Spinner aisleFreeUpSpinner;
     private EditText startTimeEditText;
     private EditText endTimeEditText;
     private ProgressBar progressBar;
     private Button OKBookButton;
+    private EditText aisleIdEditText;
+
+    private TextInputEditText textInputEditTextAisle, textInputEditTextRoomNumber, textInputEditTextStartTime, textInputEditTextEndTime;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_collaborative);
+        setContentView(R.layout.activity_collaborative2);
 
-        roomNumberEditText = findViewById(R.id.RoomBookedTextNumber);
-        startTimeEditText = findViewById(R.id.StartTimeBookedTextTime);
-        endTimeEditText = findViewById(R.id.EndTimeBookedTextTime);
+        /*textInputEditTextAisle = findViewById(R.id.aisleId);
+        textInputEditTextRoomNumber = findViewById(R.id.RoomNumber);
+        textInputEditTextStartTime = findViewById(R.id.StartTime);
+        textInputEditTextEndTime = findViewById(R.id.EndTime);
         progressBar = findViewById(R.id.progress);
-        OKBookButton = findViewById(R.id.OKBookButton);
+        OKBookButton = findViewById(R.id.OKFreeUpButton);*/
 
-        // Adapter for aisleBook Spinner
-        aisleBookSpinner = findViewById(R.id.aisleBook);
-        ArrayAdapter<CharSequence> adapterBooked = ArrayAdapter.createFromResource(this, R.array.room_numbers, android.R.layout.simple_spinner_item);
-        adapterBooked.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        aisleBookSpinner.setAdapter(adapterBooked);
+        roomNumberEditText = findViewById(R.id.roomFreeUpTextNumber);
+        startTimeEditText = findViewById(R.id.StartTimeFreeUpTextTime);
+        endTimeEditText = findViewById(R.id.EndTimeFreeUpTextTime);
+        progressBar = findViewById(R.id.progress);
+        OKBookButton = findViewById(R.id.OKFreeUpButton);
 
         // Adapter for aisleFreeUp Spinner
-        Spinner aisleFreeUpSpinner = findViewById(R.id.aisleFreeup);
+        aisleFreeUpSpinner = findViewById(R.id.aisleFreeup);
         ArrayAdapter<CharSequence> adapterFreeUp = ArrayAdapter.createFromResource(this, R.array.room_numbers, android.R.layout.simple_spinner_item);
         adapterFreeUp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         aisleFreeUpSpinner.setAdapter(adapterFreeUp);
@@ -62,119 +67,77 @@ public class CollaborativeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d("button", "onOKBookButtonClick: ");
-                String aisleId = aisleBookSpinner.getSelectedItem().toString();
+                String aisleId = aisleFreeUpSpinner.getSelectedItem().toString();
                 String roomNumber = roomNumberEditText.getText().toString();
                 String startTime = startTimeEditText.getText().toString();
                 String endTime = endTimeEditText.getText().toString();
 
-                // Exécuter la tâche asynchrone pour vérifier la disponibilité de la salle
-                new CheckRoomAvailabilityTask().execute(aisleId, roomNumber, startTime, endTime);
-            }
-        });
-    }
+                //String aisleId, roomNumber, startTime, endTime;
+                //aisleId = String.valueOf(aisleFreeUpSpinner.getSelectedItem());
+                /*aisleId = String.valueOf(textInputEditTextAisle.getText());
+                Log.d("aisleID", aisleId);
+                roomNumber = String.valueOf(textInputEditTextRoomNumber.getText());
+                Log.d("roomNumber", roomNumber);
+                startTime = String.valueOf(textInputEditTextStartTime.getText());
+                Log.d("startTime", startTime);
+                endTime = String.valueOf(textInputEditTextEndTime.getText());
+                Log.d("endTime", endTime);*/
 
-    private boolean isRoomAvailable(int aisleId, int roomNumber, String startTime, String endTime) {
-        try {
-            // Créer un objet JSON pour les données à envoyer
-            JSONObject postData = new JSONObject();
-            postData.put("aisle", aisleId);
-            postData.put("number", roomNumber);
-            postData.put("starttime", startTime);
-            postData.put("endtime", endTime);
-
-            // Convertir l'objet JSON en chaîne
-            String jsonString = postData.toString();
-
-            // Spécifier l'URL du serveur PHP
-            URL url = new URL("http://192.168.5.69/FindoorDatabase/verifier_disponibilite.php");
-
-            // Créer la connexion HTTP
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("POST");
-            urlConnection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-            urlConnection.setRequestProperty("Accept", "application/json");
-            urlConnection.setDoOutput(true);
-
-            // Écrire les données JSON dans la sortie de la connexion
-            try (OutputStream os = urlConnection.getOutputStream()) {
-                byte[] input = jsonString.getBytes(StandardCharsets.UTF_8);
-                os.write(input, 0, input.length);
-            }
-
-            // Lire la réponse du serveur
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), StandardCharsets.UTF_8))) {
-                StringBuilder response = new StringBuilder();
-                String responseLine;
-                while ((responseLine = br.readLine()) != null) {
-                    response.append(responseLine.trim());
-                }
-
-                // Vérifier la réponse du serveur
-                return response.toString().equals("true");
-            }
-
-        } catch (Exception e) {
-            Log.e("HTTP", "Error in HTTP request: " + e.getMessage());
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    private void insertReservation(int aisleId, int roomNumber, String startTime, String endTime) {
-        // Démarrer la visibilité du ProgressBar
-        progressBar.setVisibility(View.VISIBLE);
-
-        // Utiliser un Handler pour effectuer des opérations sur le thread principal
-        Handler handler = new Handler(Looper.getMainLooper());
-
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                String strAisleId = String.valueOf(aisleId);
-                String strRoomNumber = String.valueOf(roomNumber);
-                // Créer un tableau pour les champs
-                String[] field = new String[4];
-                field[0] = "aisleId";
-                field[1] = "roomNumber";
-                field[2] = "startTime";
-                field[3] = "endTime";
-
-                // Créer un tableau pour les données
-                String[] data = new String[4];
-                data[0] = strAisleId;
-                data[1] = strRoomNumber;
-                data[2] = startTime;
-                data[3] = endTime;
-
-                // Créer une instance de la classe PutData
-                PutData putData = new PutData("http://192.168.5.69/FindoorDatabase/insertReservation.php", "POST", field, data);
-
-                if (putData.startPut()) {
-                    if (putData.onComplete()) {
-                        progressBar.setVisibility(View.GONE);
-
-                        // Récupérer le résultat de l'opération
-                        String result = putData.getResult();
-
-                        // Vérifier le résultat et afficher un message en conséquence
-                        if (result.equals("Leave Reservation Success")) {
-                            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-                            // Ajoutez ici toute logique supplémentaire après une réservation réussie
-                        } else {
-                            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                if(!aisleId.equals("") && !roomNumber.equals("") && !startTime.equals("") && !endTime.equals("")) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            //Starting Write and Read data with URL
+                            //Creating array for parameters
+                            String[] field = new String[4];
+                            field[0] = "aisle";
+                            field[1] = "number";
+                            field[2] = "starttime";
+                            field[3] = "endtime";
+                            //Creating array for data
+                            String[] data = new String[4];
+                            data[0] = aisleId;
+                            data[1] = roomNumber;
+                            data[2] = startTime;
+                            data[3] = endTime;
+                            PutData putData = new PutData("http://192.168.5.69/FindoorDatabase/leaveReservation.php", "POST", field, data);
+                            if (putData.startPut()) {
+                                if (putData.onComplete()) {
+                                    progressBar.setVisibility(View.GONE);
+                                    String result = putData.getResult();
+                                    //End ProgressBar (Set visibility to GONE)
+                                    Log.i("PutData", result);
+                                    if(result.equals("Free Up Success")){
+                                        Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                    else{
+                                        Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+                            //End Write and Read data with URL
                         }
-                    }
+                    });
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "All fields required", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
+
 
     public void back(View view) {
         Intent bouton_back = new Intent(this, TableActivity.class);
         startActivity(bouton_back);
     }
 
-    private class CheckRoomAvailabilityTask extends AsyncTask<String, Void, Boolean> {
+    /*private class CheckRoomAvailabilityTask extends AsyncTask<String, Void, Boolean> {
 
         @Override
         protected Boolean doInBackground(String... params) {
@@ -184,14 +147,14 @@ public class CollaborativeActivity extends AppCompatActivity {
             String endTime = params[3];
 
             // Appel à la méthode isRoomAvailable
-            return isRoomAvailable(aisleId, roomNumber, startTime, endTime);
+            return insertReservation(aisleId, roomNumber, startTime, endTime);
         }
 
         @Override
         protected void onPostExecute(Boolean result) {
             // Ici, tu peux utiliser le résultat pour prendre des mesures, par exemple afficher un message à l'utilisateur.
             if (result) {
-                String aisleId = aisleBookSpinner.getSelectedItem().toString();
+                String aisleId = aisleFreeUpSpinner.getSelectedItem().toString();
                 String roomNumber = roomNumberEditText.getText().toString();
                 String startTime = startTimeEditText.getText().toString();
                 String endTime = endTimeEditText.getText().toString();
@@ -207,5 +170,5 @@ public class CollaborativeActivity extends AppCompatActivity {
             }
         }
 
-    }
+    }*/
 }
