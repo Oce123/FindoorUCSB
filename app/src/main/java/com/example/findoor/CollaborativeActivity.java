@@ -72,17 +72,6 @@ public class CollaborativeActivity extends AppCompatActivity {
                 String startTime = startTimeEditText.getText().toString();
                 String endTime = endTimeEditText.getText().toString();
 
-                //String aisleId, roomNumber, startTime, endTime;
-                //aisleId = String.valueOf(aisleFreeUpSpinner.getSelectedItem());
-                /*aisleId = String.valueOf(textInputEditTextAisle.getText());
-                Log.d("aisleID", aisleId);
-                roomNumber = String.valueOf(textInputEditTextRoomNumber.getText());
-                Log.d("roomNumber", roomNumber);
-                startTime = String.valueOf(textInputEditTextStartTime.getText());
-                Log.d("startTime", startTime);
-                endTime = String.valueOf(textInputEditTextEndTime.getText());
-                Log.d("endTime", endTime);*/
-
                 if(!aisleId.equals("") && !roomNumber.equals("") && !startTime.equals("") && !endTime.equals("")) {
                     progressBar.setVisibility(View.VISIBLE);
                     Handler handler = new Handler(Looper.getMainLooper());
@@ -137,38 +126,4 @@ public class CollaborativeActivity extends AppCompatActivity {
         startActivity(bouton_back);
     }
 
-    /*private class CheckRoomAvailabilityTask extends AsyncTask<String, Void, Boolean> {
-
-        @Override
-        protected Boolean doInBackground(String... params) {
-            int aisleId = Integer.parseInt(params[0]);
-            int roomNumber = Integer.parseInt(params[1]);
-            String startTime = params[2];
-            String endTime = params[3];
-
-            // Appel à la méthode isRoomAvailable
-            return insertReservation(aisleId, roomNumber, startTime, endTime);
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            // Ici, tu peux utiliser le résultat pour prendre des mesures, par exemple afficher un message à l'utilisateur.
-            if (result) {
-                String aisleId = aisleFreeUpSpinner.getSelectedItem().toString();
-                String roomNumber = roomNumberEditText.getText().toString();
-                String startTime = startTimeEditText.getText().toString();
-                String endTime = endTimeEditText.getText().toString();
-
-                // Si la salle est disponible, insérer la réservation dans la base de données
-                insertReservation(Integer.parseInt(aisleId), Integer.parseInt(roomNumber), startTime, endTime);
-
-                // Informer l'utilisateur de la réussite de la réservation
-                Toast.makeText(CollaborativeActivity.this, "Room booked successfully!", Toast.LENGTH_SHORT).show();
-            } else {
-                // Informer l'utilisateur que la salle demandée ne peut pas être réservée
-                Toast.makeText(CollaborativeActivity.this, "The requested room is not available for booking.", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-    }*/
 }
